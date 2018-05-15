@@ -14,6 +14,8 @@
 		D34CA33220AA710300C8C6A2 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D34CA33020AA710300C8C6A2 /* Main.storyboard */; };
 		D34CA33E20AA710300C8C6A2 /* GeojsonViewerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D34CA33D20AA710300C8C6A2 /* GeojsonViewerTests.swift */; };
 		D34CA34920AA710300C8C6A2 /* GeojsonViewerUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D34CA34820AA710300C8C6A2 /* GeojsonViewerUITests.swift */; };
+		D34CA35720AA710F00C8C6A2 /* GeojsonDecoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = D34CA35620AA710F00C8C6A2 /* GeojsonDecoder.swift */; };
+		D34CA35920AA7C5100C8C6A2 /* GeojsonWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D34CA35820AA7C5100C8C6A2 /* GeojsonWindowController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -48,6 +50,8 @@
 		D34CA34420AA710300C8C6A2 /* GeojsonViewerUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GeojsonViewerUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		D34CA34820AA710300C8C6A2 /* GeojsonViewerUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeojsonViewerUITests.swift; sourceTree = "<group>"; };
 		D34CA34A20AA710300C8C6A2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D34CA35620AA710F00C8C6A2 /* GeojsonDecoder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GeojsonDecoder.swift; sourceTree = "<group>"; };
+		D34CA35820AA7C5100C8C6A2 /* GeojsonWindowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeojsonWindowController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -101,8 +105,10 @@
 				D34CA32820AA710200C8C6A2 /* AppDelegate.swift */,
 				D34CA32A20AA710200C8C6A2 /* ViewController.swift */,
 				D34CA32C20AA710200C8C6A2 /* Document.swift */,
+				D34CA35620AA710F00C8C6A2 /* GeojsonDecoder.swift */,
 				D34CA32E20AA710300C8C6A2 /* Assets.xcassets */,
 				D34CA33020AA710300C8C6A2 /* Main.storyboard */,
+				D34CA35820AA7C5100C8C6A2 /* GeojsonWindowController.swift */,
 				D34CA33320AA710300C8C6A2 /* Info.plist */,
 				D34CA33420AA710300C8C6A2 /* GeojsonViewer.entitlements */,
 			);
@@ -258,7 +264,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				D34CA32B20AA710200C8C6A2 /* ViewController.swift in Sources */,
+				D34CA35920AA7C5100C8C6A2 /* GeojsonWindowController.swift in Sources */,
 				D34CA32920AA710200C8C6A2 /* AppDelegate.swift in Sources */,
+				D34CA35720AA710F00C8C6A2 /* GeojsonDecoder.swift in Sources */,
 				D34CA32D20AA710200C8C6A2 /* Document.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
