@@ -82,6 +82,11 @@ class ViewController: NSViewController, MKMapViewDelegate {
             renderer.lineWidth = 2
             renderer.fillColor = NSColor.red.withAlphaComponent(0.5)
             return renderer
+        } else if let line = overlay as? MKPolyline {
+            let renderer = MKPolylineRenderer(polyline: line)
+            renderer.strokeColor = NSColor.red
+            renderer.lineWidth = 2
+            return renderer
         }
         
         return MKOverlayRenderer(overlay: overlay)
