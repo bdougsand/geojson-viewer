@@ -43,17 +43,19 @@ func makeMKOverlay(from geometry: Geom) -> MKOverlay? {
 }
 
 func makeMKOverlays(from feature: GeoFeature) -> [MKOverlay] {
-    switch feature {
-    case .feature(geometry: let geom, properties: _, id: _):
+    // TODO - Do something with properties
+    switch feature.type {
+    case .feature(geometry: let geom):
         if let geom = geom, let overlay = makeMKOverlay(from: geom) {
             return [overlay]
         } else {
             return [ ]
         }
-    case .featureCollection(features: let features, properties: _, id: _):
+    case .collection(features: let features):
         return features.flatMap(makeMKOverlays)
     }
 }
+
 
 class ViewController: NSViewController, MKMapViewDelegate {
     @IBOutlet weak var mapView: MKMapView!

@@ -16,16 +16,7 @@ enum GeoJSONError: Error {
     case decodeError
 }
 
-//extension MKMapPoint: Decodable {
-//    public init(from decoder: Decoder) throws {
-//        var container = try decoder.unkeyedContainer()
-//
-//        let x = try container.decode(Double.self)
-//        let y = try container.decode(Double.self)
-//
-//        self = MKMapPoint(x: x, y: y)
-//    }
-//}
+typealias FeatureDecodedCallback = ([CodingKey], GeoFeature) -> Void
 
 
 enum Geom {
@@ -99,12 +90,21 @@ enum DecodableValue: Decodable {
     }
 }
 
-enum GeoFeature {
-    case feature(geometry: Geom?, properties: [String: DecodableValue], id: String?)
-    case featureCollection(features: [GeoFeature], properties: [String: DecodableValue], id: String?)
-}
+class GeoFeature: Decodable {
+    enum FeatureType {
+        case feature(geometry: Geom?)
+        case collection(features: [GeoFeature])
+    }
+    let properties: [String: DecodableValue]
+    let id: String?
+    let type: FeatureType
+    
+    init(properties: [String: DecodableValue], id: String?, type: FeatureType) {
+        self.properties = properties
+        self.id = id
+        self.type = type
+    }
 
-extension GeoFeature: Decodable {
     enum CodingKeys: CodingKey {
         case type
         case features
@@ -113,22 +113,27 @@ extension GeoFeature: Decodable {
         case geometry
     }
     
-    init(from decoder: Decoder) throws {
+    required init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         
-        let type = try! container.decode(String.self, forKey: .type)
-        let id = try? container.decode(String.self, forKey: .id)
-        let properties = try? container.decode([String: DecodableValue].self, forKey: CodingKeys.properties)
+        self.id = try? container.decode(String.self, forKey: .id)
+        self.properties = (try? container.decode([String: DecodableValue].self, forKey: CodingKeys.properties)) ?? [:]
+        let typeName = try! container.decode(String.self, forKey: .type)
         
-        switch type {
+        switch typeName {
         case "Feature":
             let geometry = try! container.decode(Geom?.self, forKey: .geometry)
-            self = .feature(geometry: geometry, properties: properties ?? [:], id: id)
+            self.type = .feature(geometry: geometry)
         case "FeatureCollection":
             let features = try! container.decode([GeoFeature].self, forKey: .features)
-            self = .featureCollection(features: features, properties: properties ?? [:], id: id)
+            self.type = .collection(features: features)
         default:
-            throw GeoJSONError.invalidFeatureType(type)
+            throw GeoJSONError.invalidFeatureType(typeName)
+        }
+        
+        let key = CodingUserInfoKey(rawValue: "onProgress")!
+        if let onProgress = decoder.userInfo[key] as? FeatureDecodedCallback{
+            onProgress(decoder.codingPath, self)
         }
     }
 }
